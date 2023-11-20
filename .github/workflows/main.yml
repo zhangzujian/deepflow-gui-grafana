@@ -130,19 +130,6 @@ jobs:
           username: "${{ github.repository_owner }}"
           password: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Log In To Docker Registry
-        uses: docker/login-action@v2
-        with:
-          username: "deepflowce"
-          password: "${{ secrets.REGISTRY_PASS }}"
-
-      - name: Log In To ALIYUN Docker Registry
-        uses: docker/login-action@v2
-        with:
-          registry: "registry.cn-beijing.aliyuncs.com"
-          username: "${{ secrets.REGISTRY_ALIYUN_USER }}"
-          password: "${{ secrets.REGISTRY_PASS }}"
-
       - name: Build And Push deepflowio-init-grafana Images
         uses: docker/build-push-action@v2
         with:
@@ -153,43 +140,6 @@ jobs:
           tags: |
             "ghcr.io/${{ github.repository_owner }}/deepflow-ce/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ env.IMAGE_TAG }}"
             "ghcr.io/${{ github.repository_owner }}/deepflow-ce/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}"
-            "deepflowce/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}"
-
-      - name: Log In To ALIYUN HongKong Docker Registry
-        uses: docker/login-action@v2
-        with:
-          registry: "registry.cn-hongkong.aliyuncs.com"
-          username: "${{ secrets.REGISTRY_ALIYUN_USER }}"
-          password: "${{ secrets.REGISTRY_PASS }}"
-
-      - name: Build And Push deepflowio-init-grafana Images to ALIYUN HongKong
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          file: Dockerfile
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            "registry.cn-hongkong.aliyuncs.com/deepflow-ce/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ env.IMAGE_TAG }}"
-            "registry.cn-hongkong.aliyuncs.com/deepflow-ce/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}"
-
-      - name: Log In To ALIYUN Docker Registry
-        uses: docker/login-action@v2
-        with:
-          registry: "registry.cn-beijing.aliyuncs.com"
-          username: "${{ secrets.REGISTRY_ALIYUN_USER }}"
-          password: "${{ secrets.REGISTRY_PASS }}"
-
-      - name: Build And Push deepflowio-init-grafana Images To ALIYUN BeiJing
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          file: Dockerfile
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            "registry.cn-beijing.aliyuncs.com/deepflow-ce/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ env.IMAGE_TAG }}"
-            "registry.cn-beijing.aliyuncs.com/deepflow-ce/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}"
 
       - name: Build tar.gz
         run: |
